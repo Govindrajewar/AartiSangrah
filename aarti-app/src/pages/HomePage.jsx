@@ -21,6 +21,7 @@ function HomePage() {
 
   // eslint-disable-next-line
   const [isMobile, setIsMobile] = useState(false);
+  const [userAarti, setUserAarti] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,7 +53,7 @@ function HomePage() {
     const getData = async () => {
       try {
         const response = await axios.get("http://localhost:8080/getAllData");
-        console.log("response: ", response.data);
+        setUserAarti(response.data);
       } catch (err) {
         console.error(err);
       }
@@ -63,8 +64,11 @@ function HomePage() {
 
   return (
     <div className="homepage">
-      <NavBar/>
+      <NavBar />
       <div className="aarti-header">Aarti List</div>
+
+      <h2>Local Aarti</h2>
+
       <div className="aarti-count">
         Number of Aarti Available: {aartiList.length}
       </div>
@@ -78,6 +82,25 @@ function HomePage() {
             }}
           >
             <div className="aarti-title">{aarti.name}</div>
+          </div>
+        ))}
+      </div>
+
+      <h2>Global Aarti</h2>
+
+      <div className="aarti-count">
+        Number of Aarti Available: {userAarti.length}
+      </div>
+      <div className="aarti-grid">
+        {userAarti.map((aarti) => (
+          <div
+            key={aarti._id}
+            className="aarti-card"
+            onClick={() => {
+              navigate("/view", { state: { aarti } });
+            }}
+          >
+            <div className="aarti-title">{aarti.title}</div>
           </div>
         ))}
       </div>

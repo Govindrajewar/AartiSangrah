@@ -7,7 +7,6 @@
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 .display-text {
@@ -18,6 +17,10 @@
 .display-text img {
   height: 100%;
   width: 100%;
+}
+
+.aarti-lyrics {
+  font-size: 18px;
 }
 
 .close-btn {
