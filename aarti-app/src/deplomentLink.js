@@ -1,2 +1,2 @@
-export const FRONTEND_URL = "http://localhost:3000";
-export const BACKEND_URL = "http://localhost:8080";
+export const FRONTEND_URL = "https://aarti-sangrah-6b4g.vercel.app";
+export const BACKEND_URL = "https://aartisangrah-server.onrender.com";
