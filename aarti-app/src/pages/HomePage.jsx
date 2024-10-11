@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../style/HomePage.css";
 import { useNavigate } from "react-router-dom";
 import aarti_shivraja from "../assets/aarti_shivraja.jpg";
@@ -13,9 +14,24 @@ import sonyachya_pavlane from "../assets/sonyachya_pavlane.jpg";
 import sukhkarta from "../assets/sukhkarta.jpg";
 import udo_udo_udo_udog from "../assets/udo_udo_udo_udog.jpg";
 import yei_o_renuke from "../assets/yei_o_renuke.jpg";
+import NavBar from "../components/NavBar";
 
 function HomePage() {
   const navigate = useNavigate();
+
+  // eslint-disable-next-line
+  const [isMobile, setIsMobile] = useState(false);
+  const [userAarti, setUserAarti] = useState([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 800) {
+        setIsMobile(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
 
   // eslint-disable-next-line
   const aartiList = [
@@ -33,9 +49,26 @@ function HomePage() {
     { name: "Yeyi O Renuke", url: yei_o_renuke },
   ];
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/getAllData");
+        setUserAarti(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getData();
+  }, []);
+
   return (
     <div className="homepage">
+      <NavBar />
       <div className="aarti-header">Aarti List</div>
+
+      <h2>Local Aarti</h2>
+
       <div className="aarti-count">
         Number of Aarti Available: {aartiList.length}
       </div>
@@ -49,6 +82,25 @@ function HomePage() {
             }}
           >
             <div className="aarti-title">{aarti.name}</div>
+          </div>
+        ))}
+      </div>
+
+      <h2>Global Aarti</h2>
+
+      <div className="aarti-count">
+        Number of Aarti Available: {userAarti.length}
+      </div>
+      <div className="aarti-grid">
+        {userAarti.map((aarti) => (
+          <div
+            key={aarti._id}
+            className="aarti-card"
+            onClick={() => {
+              navigate("/view", { state: { aarti } });
+            }}
+          >
+            <div className="aarti-title">{aarti.title}</div>
           </div>
         ))}
       </div>

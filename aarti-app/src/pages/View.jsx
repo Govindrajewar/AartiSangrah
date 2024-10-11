@@ -7,11 +7,28 @@ function View() {
   const location = useLocation();
   const { aarti } = location.state || {}; // Access the passed aarti object
 
+  let filteredAarti = [];
+
+  if (aarti.lyrics) {
+    filteredAarti = aarti.lyrics.split(",");
+  }
+
   return (
     <div className="view">
       <div className="display-text">
-        {/* <h1>{aarti?.name}</h1> */}
-        <img src={aarti?.url} alt={aarti?.name} />
+        {aarti.lyrics ? (
+          <div className="aarti-lyrics">
+            <h1>{aarti.title}</h1>
+            {filteredAarti.map((line, index) => (
+              <div key={index}>
+                {line}
+                <br />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <img src={aarti?.url} alt={aarti?.title} />
+        )}
       </div>
 
       <button className="close-btn" onClick={() => navigate("/")}>
