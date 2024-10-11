@@ -7,8 +7,12 @@ const aartiRoutes = require("./src/routes/aartiRoutes.js");
 const app = express();
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(aartiRoutes);
 
 app.get("/", (req, res) => {
