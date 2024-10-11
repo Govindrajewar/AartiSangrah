@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BACKEND_URL } from "../deplomentLink";
 import "../style/HomePage.css";
 import { useNavigate } from "react-router-dom";
 import aarti_shivraja from "../assets/aarti_shivraja.jpg";
@@ -52,7 +53,7 @@ function HomePage() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/getAllData");
+        const response = await axios.get(`${BACKEND_URL}/getAllData`);
         setUserAarti(response.data);
       } catch (err) {
         console.error(err);
