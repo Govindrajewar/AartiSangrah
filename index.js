@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://aarti-sangrah-6b4g.vercel.app",
   })
 );
 app.use(aartiRoutes);
