@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../style/NavBar.css";
-import { BACKEND_URL } from "../deplomentLink";
+import { BACKEND_URL } from "../deploymentLink";
 
 function NavBar() {
   const [isAddingAarti, setIsAddingAarti] = useState(false);

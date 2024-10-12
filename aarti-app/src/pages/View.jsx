@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 function View() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { aarti } = location.state || {}; // Access the passed aarti object
+  const { aarti } = location.state || {};
 
   let filteredAarti = [];
 

@@ -60,6 +60,13 @@
   width: 100%;
 }
 
+.loading-message{
+  text-align: center;
+  margin-top: 200px;
+  font-size: 24px;
+  color: gray;
+}
+
 @media (max-width: 777px) {
 
   .aarti-grid {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "../deplomentLink";
+import { BACKEND_URL } from "../deploymentLink";
 import "../style/HomePage.css";
 import { useNavigate } from "react-router-dom";
 import aarti_shivraja from "../assets/aarti_shivraja.jpg";
@@ -23,8 +23,17 @@ function HomePage() {
   // eslint-disable-next-line
   const [isMobile, setIsMobile] = useState(false);
   const [userAarti, setUserAarti] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
 
-  useEffect(() => {
+  const loadingMessageArray = [
+    { message: "Fetching data, please wait..." },
+    { message: "Almost there..." },
+    { message: "Hang tight, just a little longer..." },
+    { message: "Preparing your content..." },
+    { message: "Loading, thank you for your patience!" },
+  ];
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 800) {
         setIsMobile(true);
@@ -53,8 +62,10 @@ function HomePage() {
   useEffect(() => {
     const getData = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(`${BACKEND_URL}/getAllData`);
         setUserAarti(response.data);
+        setIsLoading(false);
       } catch (err) {
         console.error(err);
       }
@@ -62,6 +73,16 @@ function HomePage() {
 
     getData();
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingMessageIndex((prevIndex) =>
+        prevIndex === loadingMessageArray.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  });
 
   return (
     <div className="homepage">
@@ -92,19 +113,25 @@ function HomePage() {
       <div className="aarti-count">
         Number of Aarti Available: {userAarti.length}
       </div>
-      <div className="aarti-grid">
-        {userAarti.map((aarti) => (
-          <div
-            key={aarti._id}
-            className="aarti-card"
-            onClick={() => {
-              navigate("/view", { state: { aarti } });
-            }}
-          >
-            <div className="aarti-title">{aarti.title}</div>
-          </div>
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="loading-message">
+          {loadingMessageArray[loadingMessageIndex].message}
+        </div>
+      ) : (
+        <div className="aarti-grid">
+          {userAarti.map((aarti) => (
+            <div
+              key={aarti._id}
+              className="aarti-card"
+              onClick={() => {
+                navigate("/view", { state: { aarti } });
+              }}
+            >
+              <div className="aarti-title">{aarti.title}</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
